@@ -15,25 +15,24 @@
     },
     "scripts": {
         "post-create-project-cmd": [
-            "@php -r \"copy('.env.example', '.env');\"",
-            "@php -r \"if (!is_dir('../framework')) { $composer = json_decode(file_get_contents('composer.json'), true); unset($composer['repositories']); file_put_contents('composer.json', json_encode($composer, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)); echo 'Removed local path repository (using Packagist instead)' . PHP_EOL; }\""
+            "@php -r \"copy('.env.example', '.env');\""
         ],
         "build:notes": "php8.5 bin/larafony build:notes"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "repositories": [
-        {
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "repositories": {
+        "local": {
             "type": "path",
             "url": "../framework",
             "options": {
                 "symlink": true
             }
-        }
-    ],
-    "config": {
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
         }
     }
 }
