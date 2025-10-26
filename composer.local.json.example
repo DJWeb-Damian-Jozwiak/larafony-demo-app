@@ -1,0 +1,38 @@
+{
+    "name": "larafony/skeleton",
+    "description": "Larafony Framework Application Skeleton - Local Development",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.5",
+        "larafony/core": "@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/",
+            "App\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "scripts": {
+        "post-create-project-cmd": [
+            "@php -r \"copy('.env.example', '.env');\""
+        ],
+        "build:notes": "php8.5 bin/larafony build:notes"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../framework",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}
