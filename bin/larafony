@@ -1,0 +1,12 @@
+#!/usr/bin/env php8.5
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @var \Larafony\Framework\Console\Application $app
+ */
+$app = require_once __DIR__ . '/../bootstrap/console.php';
+
+// Run the application
+$app->handle();
