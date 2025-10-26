@@ -8,36 +8,29 @@ When developing locally, you want changes in `../framework` to be **instantly vi
 
 ## Solution
 
-Use a local composer.json that includes the path repository.
+Use helper scripts to switch between development mode (local symlink) and production mode (Packagist).
 
-### Setup
+### Quick Setup
 
-1. Copy the local development config:
+**Development Mode** (instant framework changes):
 ```bash
-cp composer.local.json.example composer.local.json
+./dev-mode.sh
 ```
 
-2. Install dependencies using the local config:
+This will:
+1. Add `repositories.local` to composer.json (path to `../framework`)
+2. Reinstall with symlink
+3. Verify symlink is created
+
+**Production Mode** (test Packagist behavior):
 ```bash
-# Remove existing vendor and lock
-rm -rf vendor composer.lock
-
-# Use local composer config
-mv composer.json composer.json.prod
-mv composer.local.json composer.json
-
-# Install with symlink to ../framework
-php8.5 /usr/local/bin/composer install
-
-# Restore files
-mv composer.json composer.local.json
-mv composer.json.prod composer.json
+./prod-mode.sh
 ```
 
-Or use this one-liner:
-```bash
-php8.5 /usr/local/bin/composer install --no-interaction --working-dir=/var/www/projekty/book/demo-app
-```
+This will:
+1. Remove `repositories.local` from composer.json
+2. Reinstall from Packagist
+3. Warn you to restore dev mode before committing
 
 ### Verify Symlink
 
@@ -59,27 +52,46 @@ vim ../framework/src/Larafony/Database/ORM/Model.php
 php -S localhost:8000 -t public
 ```
 
-### Switching Back to Production Mode
-
-To test the app as end-users would use it (from Packagist):
-
-```bash
-rm -rf vendor composer.lock
-php8.5 /usr/local/bin/composer install
-# This will use composer.json (without path repository) and fetch from Packagist
-```
-
 ## How It Works
 
-- `composer.json` - Production version (committed to git, used by `composer create-project`)
-  - Requires `larafony/core` from Packagist
-  - No `repositories` section
+**Repository state (committed to git):**
+- `composer.json` does **NOT** have `repositories` section
+- Works for `composer create-project` (users install from Packagist)
+- Clean, production-ready
 
-- `composer.local.json.example` - Local development template
-  - Includes `repositories` with `path` type pointing to `../framework`
-  - Uses `symlink: true` for instant changes
-  - **Not committed to git** (in .gitignore)
+**Development mode (`./dev-mode.sh`):**
+- Adds `repositories.local` pointing to `../framework`
+- Installs with `symlink: true`
+- Changes in `../framework/src/` are instant
+- **composer.json is modified** (git will show changes)
 
-- Copy `.example` to `composer.local.json` for your local setup
-- Use `composer.local.json` during development
-- Use `composer.json` to test production behavior
+**Production mode (`./prod-mode.sh`):**
+- Removes `repositories.local`
+- Installs from Packagist (as users would)
+- Restores composer.json to repo state
+
+### Important Notes
+
+⚠️ **Git Warning**: When in dev mode, `git status` will show composer.json as modified. This is expected.
+
+✅ **Before committing**: Always run `./prod-mode.sh` OR manually verify composer.json has no `repositories` section.
+
+✅ **After committing**: Run `./dev-mode.sh` to restore local development setup.
+
+### Manual Mode
+
+If you prefer manual control:
+
+**Enable dev mode:**
+```bash
+php8.5 /usr/local/bin/composer config repositories.local '{"type": "path", "url": "../framework", "options": {"symlink": true}}'
+rm -rf vendor composer.lock
+php8.5 /usr/local/bin/composer install
+```
+
+**Disable dev mode:**
+```bash
+php8.5 /usr/local/bin/composer config --unset repositories.local
+rm -rf vendor composer.lock
+php8.5 /usr/local/bin/composer install
+```
