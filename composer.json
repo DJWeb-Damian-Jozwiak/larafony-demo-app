@@ -27,12 +27,5 @@
         }
     },
     "repositories": {
-        "local": {
-            "type": "path",
-            "url": "../framework",
-            "options": {
-                "symlink": true
-            }
-        }
     }
 }
