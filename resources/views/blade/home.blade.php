@@ -23,22 +23,37 @@
             <li style="padding: 10px 0; border-bottom: 1px solid #eee;">
                 <strong>🔒 Type-Safe DTOs</strong> - Validated data transfer objects
             </li>
-            <li style="padding: 10px 0;">
+            <li style="padding: 10px 0; border-bottom: 1px solid #eee;">
                 <strong>🎨 Blade Templates</strong> - Powerful templating engine
+            </li>
+            <li style="padding: 10px 0;">
+                <strong>⚡ Inertia.js + Vue</strong> - Modern SPA with server-side routing
             </li>
         </ul>
     </div>
 
     <div style="background: #e3f2fd; padding: 20px; border-radius: 6px; border-left: 4px solid #2196f3; margin-bottom: 20px;">
-        <h3 style="color: #1976d2; margin-top: 0;">📝 Try the Notes App</h3>
+        <h3 style="color: #1976d2; margin-top: 0;">📝 Try the Notes App (Blade)</h3>
+        <p style="color: #555; margin: 10px 0 15px 0;">Traditional server-rendered views with Blade templates</p>
         <p style="margin: 10px 0;">
             <a href="/notes" style="display: inline-block; background: #2196f3; color: white; padding: 12px 30px; text-decoration: none; border-radius: 4px; font-weight: bold;">
-                Open Notes App →
+                Open Blade Notes App →
             </a>
         </p>
     </div>
 
-
+    <div style="background: #f3e5f5; padding: 20px; border-radius: 6px; border-left: 4px solid #9c27b0; margin-bottom: 20px;">
+        <h3 style="color: #7b1fa2; margin-top: 0;">⚡ Try Inertia.js + Vue SPA</h3>
+        <p style="color: #555; margin: 10px 0 15px 0;">Modern single-page application with Vue.js components and Inertia.js</p>
+        <p style="margin: 10px 0;">
+            <a href="/inertia/notes" style="display: inline-block; background: #9c27b0; color: white; padding: 12px 30px; text-decoration: none; border-radius: 4px; font-weight: bold;">
+                Open Inertia Notes App →
+            </a>
+        </p>
+        <p style="color: #666; font-size: 0.9rem; margin-top: 15px;">
+            ✨ Features: Vue 3 components • Client-side navigation • Server-side routing • No API needed
+        </p>
+    </div>
 
     <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px solid #dee2e6;">
         <p style="color: #6c757d; font-size: 0.9rem;">

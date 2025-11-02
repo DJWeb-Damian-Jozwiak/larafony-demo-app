@@ -27,5 +27,15 @@
         }
     },
     "repositories": {
+        "local": {
+            "type": "path",
+            "url": "../framework",
+            "options": {
+                "symlink": true
+            }
+        }
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^7.3"
     }
 }
