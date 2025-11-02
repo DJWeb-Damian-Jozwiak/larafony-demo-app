@@ -13,11 +13,11 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $app = \Larafony\Framework\Console\Application::instance(base_path: dirname(__DIR__));
 
 $app->withServiceProviders([
-    ErrorHandlerServiceProvider::class,
     HttpServiceProvider::class,
     ConfigServiceProvider::class,
-    DatabaseServiceProvider::class,
     ConsoleServiceProvider::class,
+    DatabaseServiceProvider::class,
+    ErrorHandlerServiceProvider::class,
 ]);
 
 return $app;
