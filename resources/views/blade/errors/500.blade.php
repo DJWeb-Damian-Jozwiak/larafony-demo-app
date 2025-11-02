@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Page Not Found | Larafony</title>
+    <title>500 - Internal Server Error | Larafony</title>
     <style>
         * {
             margin: 0;
@@ -105,17 +105,6 @@
             line-height: 1.6;
         }
 
-        .error-details {
-            background: #f7fafc;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            color: #4a5568;
-            word-break: break-all;
-        }
-
         .buttons {
             display: flex;
             gap: 1rem;
@@ -211,18 +200,13 @@
 
     <div class="container">
         <div class="error-box">
-            <div class="error-code">404</div>
-            <h1 class="error-title">Page Not Found</h1>
+            <div class="error-code">500</div>
+            <h1 class="error-title">Internal Server Error</h1>
             <p class="error-message">
-                Oops! The page you're looking for seems to have wandered off into the digital void.
-                It might have been moved, deleted, or perhaps it never existed.
+                Whoops! Something went wrong on our end.
+                Our team has been notified and we're working to fix the issue.
+                Please try again later.
             </p>
-
-            @if(isset($method) && isset($path))
-            <div class="error-details">
-                <strong>{{ $method }}</strong> {{ $path }}
-            </div>
-            @endif
 
             <div class="buttons">
                 <a href="/" class="btn btn-primary">

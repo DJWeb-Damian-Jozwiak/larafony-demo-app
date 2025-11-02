@@ -15,13 +15,14 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $app = \Larafony\Framework\Web\Application::instance(base_path: dirname(__DIR__));
 
 $app->withServiceProviders([
-    ErrorHandlerServiceProvider::class,
+    
     ConfigServiceProvider::class,
     DatabaseServiceProvider::class,
     HttpServiceProvider::class,
     RouteServiceProvider::class,
     ViewServiceProvider::class,
     WebServiceProvider::class,
+    ErrorHandlerServiceProvider::class, // Must be last to ensure ViewManager is available
 ]);
 
 $app->withRoutes(function ($router) {
