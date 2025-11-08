@@ -32,6 +32,19 @@
         </ul>
     </div>
 
+    <div style="background: #fff3e0; padding: 20px; border-radius: 6px; border-left: 4px solid #ff9800; margin-bottom: 20px;">
+        <h3 style="color: #f57c00; margin-top: 0;">🔐 Authentication</h3>
+        <p style="color: #555; margin: 10px 0 15px 0;">Login or register to access the Notes application</p>
+        <p style="margin: 10px 0;">
+            <a href="/login" style="display: inline-block; background: #ff9800; color: white; padding: 12px 30px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-right: 10px;">
+                Login →
+            </a>
+            <a href="/register" style="display: inline-block; background: #4caf50; color: white; padding: 12px 30px; text-decoration: none; border-radius: 4px; font-weight: bold;">
+                Register →
+            </a>
+        </p>
+    </div>
+
     <div style="background: #e3f2fd; padding: 20px; border-radius: 6px; border-left: 4px solid #2196f3; margin-bottom: 20px;">
         <h3 style="color: #1976d2; margin-top: 0;">📝 Try the Notes App (Blade)</h3>
         <p style="color: #555; margin: 10px 0 15px 0;">Traditional server-rendered views with Blade templates</p>

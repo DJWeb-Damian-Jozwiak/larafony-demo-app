@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Middleware\AuthMiddleware;
 use App\Models\Note;
 use App\Models\Tag;
 use App\Models\User;
+use Larafony\Framework\Routing\Advanced\Attributes\Middleware;
 use Larafony\Framework\Routing\Advanced\Attributes\Route;
 use Larafony\Framework\Routing\Advanced\Attributes\RouteParam;
 use Larafony\Framework\Web\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+#[Middleware(beforeGlobal: [AuthMiddleware::class])]
 class InertiaNotesController extends Controller
 {
     public function __construct()

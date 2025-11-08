@@ -10,8 +10,6 @@ class Comment extends Model
 {
     public string $table { get => 'comments'; }
 
-    public array $fillable = ['note_id', 'author', 'content'];
-
     public ?int $note_id {
         get => $this->note_id ?? null;
         set {
@@ -34,10 +32,5 @@ class Comment extends Model
             $this->content = $value;
             $this->markPropertyAsChanged('content');
         }
-    }
-
-    public function note(): ?Note
-    {
-        return $this->belongsTo(Note::class, 'note_id');
     }
 }

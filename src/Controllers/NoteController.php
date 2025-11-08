@@ -4,15 +4,19 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Middleware\AuthMiddleware;
 use App\Models\Note;
 use App\Models\Tag;
 use App\Models\User;
 use App\DTOs\CreateNoteDto;
+use Larafony\Framework\Auth\Auth;
+use Larafony\Framework\Routing\Advanced\Attributes\Middleware;
 use Larafony\Framework\Routing\Advanced\Attributes\Route;
 use Larafony\Framework\Web\Controller;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+#[Middleware(beforeGlobal: [AuthMiddleware::class])]
 class NoteController extends Controller
 {
     public function __construct()
@@ -34,10 +38,27 @@ class NoteController extends Controller
     #[Route('/notes', 'POST')]
     public function store(CreateNoteDto $dto): ResponseInterface
     {
+
         // DTO is automatically created and validated by FormRequestAwareHandler
 
-        // Get first user as demo user
-        $user = User::query()->first();
+        // Check if user is authenticated
+        if (!Auth::check()) {
+            return $this->json([
+                'message' => 'Unauthorized',
+                'errors' => ['auth' => ['You must be logged in to create notes.']]
+            ], 401);
+        }
+
+        // Check if user has permission to create notes
+        if (!Auth::hasPermission('notes.create')) {
+            return $this->json([
+                'message' => 'Forbidden',
+                'errors' => ['permission' => ['You do not have permission to create notes.']]
+            ], 403);
+        }
+
+        /** @var User $user */
+        $user = Auth::user();
 
         // Create note
         $note = new Note()->fill([

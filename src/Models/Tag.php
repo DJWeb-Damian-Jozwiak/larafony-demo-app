@@ -19,9 +19,4 @@ class Tag extends Model
             $this->markPropertyAsChanged('name');
         }
     }
-
-    public function notes(): array
-    {
-        return $this->belongsToMany(Note::class, 'note_tag', 'tag_id', 'note_id');
-    }
 }
