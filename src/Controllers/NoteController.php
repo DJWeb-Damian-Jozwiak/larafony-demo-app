@@ -10,6 +10,8 @@ use App\Models\Tag;
 use App\Models\User;
 use App\DTOs\CreateNoteDto;
 use Larafony\Framework\Auth\Auth;
+use Larafony\Framework\Cache\Cache;
+use Larafony\Framework\Database\Base\Query\Enums\OrderDirection;
 use Larafony\Framework\Routing\Advanced\Attributes\Middleware;
 use Larafony\Framework\Routing\Advanced\Attributes\Route;
 use Larafony\Framework\Web\Controller;
@@ -27,12 +29,27 @@ class NoteController extends Controller
     #[Route('/notes', 'GET')]
     public function index(ServerRequestInterface $request): ResponseInterface
     {
-        $notes = Note::query()->get();
+        // Use cache for frequently accessed recent notes
+        $cache = Cache::instance();
+
+        $notes = $cache->remember(
+            key: 'notes.recent',
+            ttl: 600, // 10 minutes
+            callback: fn() => Note::query()->orderBy('created_at', OrderDirection::DESC)
+                ->limit(10)
+                ->get()
+        );
+
+        // Get active tags from cache (warmed by cache:warm command)
+        $activeTags = $cache->get('tags.active', []);
 
         // Relationships are lazy-loaded via attribute-based properties
         // Access $note->user, $note->tags, $note->comments directly in views
 
-        return $this->render('notes.index', ['notes' => $notes]);
+        return $this->render('notes.index', [
+            'notes' => $notes,
+            'activeTags' => $activeTags,
+        ]);
     }
 
     #[Route('/notes', 'POST')]
@@ -91,6 +108,9 @@ class NoteController extends Controller
                 $note->attachTags($tagIds);
             }
         }
+
+        // Invalidate cache after creating a note
+        Cache::instance()->tags(['notes', 'statistics'])->flush();
 
         return $this->redirect('/notes');
     }
