@@ -1,0 +1,9 @@
+PHP Built-in Server:
+
+To start the development server, run:
+
+php8.5 -S localhost:8000 -t public
+
+Then visit: http://localhost:8000/notes
+
+Press Ctrl+C to stop the server

@@ -1,0 +1,24 @@
+Apache Virtual Host Configuration:
+
+Run the following commands:
+
+sudo tee /etc/apache2/sites-available/larafony.conf > /dev/null <<'EOF'
+<VirtualHost *:80>
+    ServerName larafony.local
+    DocumentRoot {{DOC_ROOT}}
+
+    <Directory {{DOC_ROOT}}>
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+EOF
+
+sudo a2ensite larafony
+sudo a2enmod rewrite
+sudo systemctl reload apache2
+
+Add to /etc/hosts:
+echo "127.0.0.1 larafony.local" | sudo tee -a /etc/hosts
+
+Then visit: http://larafony.local/notes

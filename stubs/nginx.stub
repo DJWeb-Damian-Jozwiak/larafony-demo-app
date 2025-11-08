@@ -1,0 +1,32 @@
+Nginx Server Block Configuration:
+
+Run the following commands:
+
+sudo tee /etc/nginx/sites-available/larafony > /dev/null <<'EOF'
+server {
+    listen 80;
+    server_name larafony.local;
+    root {{DOC_ROOT}};
+
+    index index.php;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php/php8.5-fpm.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
+EOF
+
+sudo ln -s /etc/nginx/sites-available/larafony /etc/nginx/sites-enabled/
+sudo systemctl reload nginx
+
+Add to /etc/hosts:
+echo "127.0.0.1 larafony.local" | sudo tee -a /etc/hosts
+
+Then visit: http://larafony.local/notes
