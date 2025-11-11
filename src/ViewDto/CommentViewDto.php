@@ -21,16 +21,12 @@ readonly class CommentViewDto implements Arrayable
 
     public static function fromModel(Comment $comment): self
     {
-        $cache = Cache::instance();
-
-        return $cache->remember("comment.view.{$comment->id}", 600, function () use ($comment) {
-            return new self(
-                id: $comment->id,
-                content: $comment->content,
-                user: UserViewDto::fromModel($comment->user),
-                created_at: $comment->created_at,
-            );
-        });
+        return new self(
+            id: $comment->id,
+            content: $comment->content,
+            user: UserViewDto::fromModel($comment->user),
+            created_at: $comment->created_at,
+        );
     }
 
     /**

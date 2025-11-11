@@ -2,6 +2,7 @@
 
 use App\Middleware\HandleInternalError;
 use App\Middleware\HandleNotFound;
+use Larafony\Framework\DebugBar\Middleware\InjectDebugBar;
 use Larafony\Framework\Http\Middleware\InertiaMiddleware;
 
 return [
@@ -12,5 +13,7 @@ return [
     'global' => [
         InertiaMiddleware::class,
     ],
-    'after_global' => [],
+    'after_global' => [
+        InjectDebugBar::class, // Must be last to inject into final response
+    ],
 ];

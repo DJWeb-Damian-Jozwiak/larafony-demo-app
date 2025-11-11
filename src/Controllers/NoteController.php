@@ -21,10 +21,6 @@ use Psr\Http\Message\ServerRequestInterface;
 #[Middleware(beforeGlobal: [AuthMiddleware::class])]
 class NoteController extends Controller
 {
-    public function __construct()
-    {
-        parent::__construct(\Larafony\Framework\Web\Application::instance());
-    }
 
     #[Route('/notes', 'GET')]
     public function index(ServerRequestInterface $request): ResponseInterface
@@ -32,13 +28,9 @@ class NoteController extends Controller
         // Use cache for frequently accessed recent notes
         $cache = Cache::instance();
 
-        $notes = $cache->remember(
-            key: 'notes.recent',
-            ttl: 600, // 10 minutes
-            callback: fn() => Note::query()->orderBy('created_at', OrderDirection::DESC)
-                ->limit(10)
-                ->get()
-        );
+        $notes = Note::query()->orderBy('created_at', OrderDirection::DESC)
+            ->limit(10)
+            ->get();
 
         // Get active tags from cache (warmed by cache:warm command)
         $activeTags = $cache->get('tags.active', []);

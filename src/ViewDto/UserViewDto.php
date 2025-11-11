@@ -22,14 +22,10 @@ readonly class UserViewDto implements Arrayable
             return new self(null, 'Unknown');
         }
 
-        $cache = Cache::instance();
-
-        return $cache->remember("user.view.{$user->id}", 3600, function () use ($user) {
-            return new self(
-                id: $user->id,
-                email: $user->email,
-            );
-        });
+        return new self(
+            id: $user->id,
+            email: $user->email,
+        );
     }
 
     public function toArray(): array

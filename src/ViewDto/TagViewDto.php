@@ -18,14 +18,10 @@ readonly class TagViewDto implements Arrayable
 
     public static function fromModel(Tag $tag): self
     {
-        $cache = Cache::instance();
-
-        return $cache->remember("tag.view.{$tag->id}", 3600, function () use ($tag) {
-            return new self(
-                id: $tag->id,
-                name: $tag->name,
-            );
-        });
+        return new self(
+            id: $tag->id,
+            name: $tag->name,
+        );
     }
 
     /**

@@ -29,21 +29,16 @@ readonly class NoteViewDto implements Arrayable
 
     public static function fromModel(Note $note, bool $withComments = false): self
     {
-        $cache = Cache::instance();
-        $cacheKey = $withComments ? "note.view.full.{$note->id}" : "note.view.{$note->id}";
-
-        return $cache->remember($cacheKey, 600, function () use ($note, $withComments) {
-            return new self(
-                id: $note->id,
-                title: $note->title,
-                content: $note->content,
-                user: UserViewDto::fromModel($note->user),
-                tags: TagViewDto::collection($note->tags ?? []),
-                comments: $withComments ? CommentViewDto::collection($note->comments ?? []) : [],
-                created_at: $note->created_at,
-                updated_at: $note->updated_at,
-            );
-        });
+        return new self(
+            id: $note->id,
+            title: $note->title,
+            content: $note->content,
+            user: UserViewDto::fromModel($note->user),
+            tags: TagViewDto::collection($note->tags ?? []),
+            comments: $withComments ? CommentViewDto::collection($note->comments ?? []) : [],
+            created_at: $note->created_at,
+            updated_at: $note->updated_at,
+        );
     }
 
     /**
