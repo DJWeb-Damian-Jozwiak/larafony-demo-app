@@ -28,9 +28,16 @@ class NoteController extends Controller
         // Use cache for frequently accessed recent notes
         $cache = Cache::instance();
 
-        $notes = Note::query()->orderBy('created_at', OrderDirection::DESC)
-            ->limit(10)
-            ->get();
+        $notes = $cache->remember('notes.recent', 260, function () {
+            $notes = Note::query()
+                ->with(['user', 'tags'])
+                ->orderBy('created_at', OrderDirection::DESC)
+                ->limit(10)
+                ->get();
+            return array_map(fn(Note $note) => (object)$note->toArray(), $notes);
+        });
+
+
 
         // Get active tags from cache (warmed by cache:warm command)
         $activeTags = $cache->get('tags.active', []);

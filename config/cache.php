@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Larafony\Framework\Clock\Enums\TimeFormat;
 use Larafony\Framework\Config\Environment\EnvReader;
 
 return [
@@ -15,7 +16,18 @@ return [
     |
     */
 
-    'default' => EnvReader::read('CACHE_DRIVER', 'file'),
+    'default' => EnvReader::read('CACHE_DRIVER', 'redis'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | DebugBar DateTime Format
+    |--------------------------------------------------------------------------
+    |
+    | Format for displaying cache expiry times in DebugBar
+    |
+    */
+
+    'debugbar_format' => TimeFormat::DATETIME,
 
     /*
     |--------------------------------------------------------------------------
