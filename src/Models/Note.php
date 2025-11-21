@@ -12,8 +12,6 @@ use Larafony\Framework\Database\ORM\Model;
 
 class Note extends Model
 {
-    public string $table { get => 'notes'; }
-
     public array $fillable = ['title', 'content', 'user_id'];
 
     public ?string $title {
